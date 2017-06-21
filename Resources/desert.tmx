@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="2017.05.23" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" source="C:/Users/Artur/Desktop/Загрузки/tiled-windows-64bit-snapshot/examples/desert.tsx"/>
+ <layer name="Ground" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztmNkOwiAQRVEf3BLXxDVqte77/3+d01hSMqF0wDJi4sOJ1tByepkCdSmEWHqkA3SBnud+XLhr/FYBeP1KfklWI2AMTALw0VEBqkANefvoawrMLJgDTaAFtBmyWAMbC2KPfkeD3xY4A7sv+pnyi4l5cvjtA/R7Ii/sdxXv+r8x++Gaw8dFeeG6LMNP9xwcUX7ye5EfzrWs/A7oWPrY5ud7fLEn5pSOH5VLCX71lIbI1iITNWI7yeJDv67I9hfyXk20ie1057n4jUW2v+gDgwKGxHa683zWHjeR0O9zQvKMGH1c9mYcXvf0kzJ3qutPXFL/VCh+idMzbcvp9wjQD9d1aH4u46vuL7j8HhZ+OMvQ8tONdch+edcqmktd5k6XvZnrvXLXRp6fnM8l6nuFr74jCz/skfc7J0ntqe83Pv1wVpT/jdTak/OlJM+bc4yp69C3xpcyD5ie/T9/bHgBQl+5DA==
+  </data>
+ </layer>
+</map>
