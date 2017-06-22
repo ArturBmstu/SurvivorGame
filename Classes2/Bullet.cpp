@@ -39,10 +39,13 @@ bool Bullet::init() {
 void Bullet::setPosAndPhysics(Vec2 pos, float angleInDegrees) {
 	setPosition(pos);
 	setAngle(angleInDegrees);
+	setTag(BULLET_TAG);
 
-	auto ph = PhysicsBody::createCircle(getContentSize().width);
+	auto physicsBody = PhysicsBody::createCircle(getContentSize().width);
 	Vec2 velocityNormalized;
 	velocityNormalized = velocityNormalized.forAngle(CC_DEGREES_TO_RADIANS(angleInDegrees));
-	ph->setVelocity(DEF_BULLET_VELOCITY * velocityNormalized);
-	addComponent(ph);
+	physicsBody->setVelocity(DEF_BULLET_VELOCITY * velocityNormalized);
+	physicsBody->setContactTestBitmask(0xFFFFFFFF);
+	physicsBody->addMass(100);
+	addComponent(physicsBody);
 }

@@ -47,6 +47,7 @@ void LevelMap::initFirstLevel() {
 		for (int j = 0; j < boxesSize.height; ++j) {
 			auto sprite = boxes->getTileAt(Vec2(i, j));
 			if (sprite) {
+				sprite->setTag(BOX_TAG);
 				initWithPhysicsBox(sprite, tileSize, PhysicsMaterial(0.5f, 0.0f, 0.5f));
 			}
 		}
@@ -65,4 +66,31 @@ void LevelMap::initFirstLevel() {
 	/* Down */
 	sprite = Sprite::create(); sprite->setPosition(Vec2(tileSize.width / 2, -tileSize.height / 2)); _layer->addChild(sprite);
 	initWithPhysicsBox(sprite, Size(tileSize.width * groundSize.width, tileSize.height), PhysicsMaterial(1.0f, 1.0f, 0.0f), Vec2(tileSize.width * (groundSize.width - 1) / 2, 0), false);
+
+
+	auto objects = _map->getObjectGroup("fixtures");
+
+	/* Physics for lakes */
+	for (int i = 1; true; ++i) {
+		Value val = Value(i);
+		auto lake = objects->getObject("lake" + val.asString());
+		if (lake.empty())
+			break;
+		auto pointsVal = lake["points"];
+		auto pointsVector = pointsVal.asValueVector();
+		Point* points = new Point[pointsVector.size()];
+		for (int j = 0; j < pointsVector.size(); ++j) {
+			points[j].x = pointsVector[j].asValueMap()["x"].asFloat();
+			points[j].y = -pointsVector[j].asValueMap()["y"].asFloat();
+		}
+		auto sprite = Sprite::create();
+		sprite->setPosition(lake["x"].asFloat(), lake["y"].asFloat());
+
+		auto physicsBody = PhysicsBody::createPolygon(points, pointsVector.size());
+		physicsBody->setDynamic(false);
+		physicsBody->setContactTestBitmask(0xFFFFFFFF);
+		sprite->addComponent(physicsBody);
+		sprite->setTag(LAKE_TAG);
+		_layer->addChild(sprite);
+	}
 }

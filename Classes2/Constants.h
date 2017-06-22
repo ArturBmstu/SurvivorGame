@@ -1,10 +1,12 @@
 #pragma once
-#define SURVIVOR_SCALE		0.3f
+#define SURVIVOR_SCALE		0.25f
 #define BULLET_SCALE		0.2f
 
 #define PLAYER_TAG			1
 #define BULLET_TAG			2
 #define BOUND_TAG			3
+#define LAKE_TAG			4
+#define BOX_TAG				5
 
 #define FLASH_IDLE			"-idle_flashlight"
 #define FLASH_MELEE			"-meleeattack_flashlight"
@@ -32,7 +34,7 @@
 #define SHOTGUN_RELOAD		"-reload_shotgun"
 #define SHOTGUN_SHOOT		"-shoot_shotgun"
 
-#define DEF_PLAYER_VELOCITY		120.0f
+#define DEF_PLAYER_VELOCITY		190.0f
 #define DEF_PLAYER_DIAG_VELOCITY	DEF_PLAYER_VELOCITY/sqrt(2)
 
 #define DEF_BULLET_VELOCITY		500.0f

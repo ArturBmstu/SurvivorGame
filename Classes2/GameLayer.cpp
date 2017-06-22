@@ -76,6 +76,44 @@ void GameLayer::Play(Ref* pSender) {
 }
 
 bool GameLayer::onContactBegin(PhysicsContact& contact) {
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+	/*if (nodeA->getTag() == BULLET_TAG && nodeB->getTag() == LAKE_TAG)
+		return false;
+
+	if (nodeB->getTag() == BULLET_TAG && nodeA->getTag() == LAKE_TAG)
+		return false;*/
+	if (nodeA->getTag() == BULLET_TAG) {
+		if (nodeB->getTag() == LAKE_TAG)
+			return false;
+		if (nodeB->getTag() == BOX_TAG) {
+			nodeB->getPhysicsBody()->setVelocity(Vec2(0, 0));
+			nodeB->getPhysicsBody()->setAngularVelocity(0);
+		}
+		Bullet* bullet = dynamic_cast<Bullet*>(nodeA);
+		bullet->setDuration(0);
+		bullet->setLife(1);
+		bullet->setLifeVar(0);
+		bullet->removeComponent(bullet->getPhysicsBody());
+		bullet->removeFromParentAndCleanup(true);
+		return false;
+	}
+	if (nodeB->getTag() == BULLET_TAG) {
+		if (nodeA->getTag() == LAKE_TAG)
+			return false;
+		if (nodeA->getTag() == BOX_TAG) {
+			nodeA->getPhysicsBody()->setVelocity(Vec2(0, 0));
+			nodeA->getPhysicsBody()->setAngularVelocity(0);
+		}
+		Bullet* bullet = dynamic_cast<Bullet*>(nodeA);
+		bullet->setDuration(0);
+		bullet->setLife(1);
+		bullet->setLifeVar(0);
+		bullet->removeComponent(bullet->getPhysicsBody());
+		bullet->removeFromParentAndCleanup(true);
+		return false;
+	}
 	return true;
 }
 
@@ -93,19 +131,45 @@ bool GameLayer::onContactSeparate(PhysicsContact& contact) {
 	auto nodeA = bodyA->getNode();
 	auto nodeB = bodyB->getNode();
 
-	Gambler* sprite = nullptr;
+	if (!nodeA)
+		return true;
+
 	if (nodeA->getTag() == PLAYER_TAG) {
-		sprite = dynamic_cast<Gambler*>(nodeA);
-		sprite->getPhysicsBody()->setVelocity(sprite->getVelocity());
+		Gambler* gambler = dynamic_cast<Gambler*>(nodeA);
+		gambler->getPhysicsBody()->setVelocity(gambler->getVelocity());
+	}
+	else if (nodeA->getTag() == BULLET_TAG) {
+		if (nodeB->getTag() == LAKE_TAG)
+			return false;
+		Bullet* bullet = dynamic_cast<Bullet*>(nodeA);
+		bullet->setDuration(0);
+		bullet->setLife(1);
+		bullet->setLifeVar(0);
+		bullet->removeComponent(bullet->getPhysicsBody());
+		bullet->removeFromParentAndCleanup(true);
 	}
 	else {
 		bodyA->setVelocity(Vec2(0, 0));
 		bodyA->setAngularVelocity(0);
 	}
 
+	if (!nodeB)
+		return true;
+
 	if (nodeB->getTag() == PLAYER_TAG) {
-		sprite = dynamic_cast<Gambler*>(nodeB);
-		sprite->getPhysicsBody()->setVelocity(sprite->getVelocity());
+		Gambler* gambler = dynamic_cast<Gambler*>(nodeB);
+		gambler->getPhysicsBody()->setVelocity(gambler->getVelocity());
+	}
+	else if (nodeB->getTag() == BULLET_TAG) {
+		if (nodeA->getTag() == LAKE_TAG)
+			return false;
+		Bullet* bullet = dynamic_cast<Bullet*>(nodeB);
+		bullet->setDuration(0);
+		bullet->setLife(1);
+		bullet->setLifeVar(1);
+		bullet->removeComponent(bullet->getPhysicsBody());
+		bullet->removeFromParentAndCleanup(true);
+		
 	}
 	else {
 		bodyB->setVelocity(Vec2(0, 0));

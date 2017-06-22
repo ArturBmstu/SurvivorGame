@@ -15,7 +15,8 @@ void Gambler::initSpriteFrames(Vector<SpriteFrame*>& frames, std::string namePat
 	if (!frames.empty())
 		return;
 	for (int i = 0; true; i++) {
-		std::string spriteName = namePattern + "_" + std::to_string(i) + ".png";
+		Value val = Value(i);
+		std::string spriteName = namePattern + "_" + val.asString() + ".png";
 		SpriteFrame* newFrame = cacher->getSpriteFrameByName(spriteName);
 		if ( !((Sprite*) newFrame) )
 			break;
